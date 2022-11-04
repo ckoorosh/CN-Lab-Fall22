@@ -5,6 +5,7 @@
 \usepackage[a4paper, total={6in, 8in}]{geometry}
 \usepackage{hyperref}
 \usepackage{fancyhdr}
+\usepackage{listings}
 \usepackage{xepersian}
 \settextfont{XB Zar.ttf}
 \setlatintextfont{Times New Roman.ttf}
@@ -91,4 +92,107 @@
     }
 \end{enumerate}
 
+\section{DNS}
+ابتدا bind9 را همانند تصویر \ref{fig:4} نصب می‌کنیم. ما از 
+\lr{ubuntu 20.04} 
+استفاده می‌کنیم.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{src/4.png}
+	\caption{}
+	\label{fig:4}
+\end{figure}
+
+مطابق شکل \ref{fig:5} یک منطقه با عنوان \lr{NetLab8.edu} ایجاد می‌کنیم. (عدد ۸ شماره‌ی گروه است.)
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{src/5.png}
+	\caption{}
+	\label{fig:5}
+\end{figure}
+
+فایل 
+\lr{/etc/bind/db.NetLab8.edu }
+مطابق تصویر \ref{fig:6} پر می‌کنیم. همانطور که در تصویر مشخص است یک nameserver با نام 
+\lr{ns.NetLab8.edu}
+ و ip با مقدار 1.8.168.192 ایجاد می‌کنیم. به دامنه‌ی سرور آدرس 2.8.168.192 اختصاص می‌دهیم. دو زیر دامنه‌ی 
+\lr{group1.NetLab8.edu} و \lr{group2.NetLab8.edu }
+را به ترتیب در ip های 
+3.8.168.192 و
+4.8.168.192 و با نام‌های مستعار 
+\lr{cNameGroup1.NetLab8.edu} و 
+\lr{cNameGroup2.NetLab8.edu } 
+تعریف می‌کنیم.
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{src/6.png}
+	\caption{}
+	\label{fig:6}
+\end{figure}
+
+مطابق تصویر \ref{fig:7} تنظمیات رکورد‌های معکوس را هم در فایل 
+\lr{/etc/bind/db.192.168.8} قرار می‌دهیم.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{src/7.png}
+	\caption{}
+	\label{fig:7}
+\end{figure}
+
+فایل 
+\lr{/etc/resolvconf/resolv.conf.d/head} 
+را مطابق تصویر \ref{fig:8} پر می‌کنیم.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{src/8.png}
+	\caption{}
+	\label{fig:8}
+\end{figure}
+
+سپس دستور‌های زیر را به ترتیب اجرا می‌کنیم تا \lr{bind9} مجددا راه‌اندازی شده و آدرس سرور ما قبل از همه‌ی سرویس‌دهنده‌های مورد اعتماد سیستم قرار بگیرد. سپس با استفاده با دستور \lr{nslookup} از درستی کارکرد سرور DNS اطمینان حاصل می‌کنیم. (مطابق تصاویر \ref{fig:9} و \ref{fig:10})
+\begin{latin}
+	\begin{lstlisting}
+sudo systemctl restart bind9
+sudo named-checkconf
+sudo resolvconf -u
+	\end{lstlisting}
+\end{latin}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{src/9.png}
+	\caption{}
+	\label{fig:9}
+\end{figure}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{src/10.png}
+	\caption{}
+	\label{fig:10}
+\end{figure}
+
+\subsection{سوالات}
+\begin{enumerate}
+	\item 
+	اطلاعات پکت‌های DNS رد و بدل شده برای بدست آوردن ip متعلق به \lr{group2.NetLab8.edu } و نام متعلق به آدرس 3.8.168.192 را با استفاده از وایرشارک capture می‌کنیم. در تصویر \ref{fig:11} و \ref{fig:12} پرس‌ و جو و پاسخ سرور را به ترتیب مشاهده می‌کنیم.
+	\item 
+	همانطور که در تصاویر هم می‌توانیم ببینیم، نوع پرس و جوی اول از نوع A و نوع پرس و جوی دوم از نوع PTR است.
+\end{enumerate}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{src/11.png}
+	\caption{}
+	\label{fig:11}
+\end{figure}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{src/12.png}
+	\caption{}
+	\label{fig:12}
+\end{figure}
 \end{document}
