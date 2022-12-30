@@ -1,6 +1,7 @@
 \documentclass[12pt]{article}
 
 \usepackage{graphicx}
+\usepackage{xcolor}
 \usepackage{indentfirst}
 \usepackage[a4paper, total={6in, 8in}]{geometry}
 \usepackage{hyperref}
@@ -8,6 +9,9 @@
 \usepackage{xepersian}
 \settextfont{B Nazanin}
 \setlatintextfont{Times New Roman}
+
+\definecolor{codegray}{gray}{0.9}
+\newcommand{\code}[1]{\colorbox{codegray}{\texttt{\lr{#1}}}}
 
 \begin{document}
 
@@ -70,27 +74,53 @@
 	\label{fig:dhcp-session}
 \end{figure}
 
-\subsection{سناریو}
-سناریو شکل \ref{fig:scenario} را در نظر بگیرید.
+\subsection{سناریو اول}
+سناریو شکل \ref{fig:scenario-1} را در نظر بگیرید.
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.5\columnwidth]{figs/s-1.jpg}
-	\caption{سناریو مورد نظر}
-	\label{fig:scenario}
+	\caption{شمای سناریو اول}
+	\label{fig:scenario-1}
 \end{figure}
 در این سناریو ما یک سرور برای سرویس \lr{DHCP}، دو \lr{PC}، یک
 \lr{Light Weight Access Point}
 و یک روتر به عنوان \lr{Gateway} در نظر می‌گیریم.
-به منظور استفاده از \lr{DHCP} به \lr{PC}ها آدرسی نمی‌دهیم. 
+به منظور استفاده از \lr{DHCP} از ابتدا به \lr{PC}ها آدرسی نمی‌دهیم اما به سرور \lr{DHCP} به صورت دستی آدرس می‌دهیم.
 
-ابتدا باید در سرور و رفتن به بخش \lr{Services} تنظیمات \lr{DHCP} و تعریف مخزن 
+با رفتن به سرور و بخش \lr{Services} تنظیمات \lr{DHCP} و تعریف مخزن 
 \lr{IP}
 را انجام دهید. 
 حالا می‌توانید با رفتن به یکی از \lr{PC}ها و انتخاب گزینه \lr{DHCP} در بخش
 \lr{IP Configuration}
 آدرس‌ها را دریافت کنید. همچنین می‌توانید در \lr{Light Weight Access Point} آدرس و مقدار \lr{primary controller} را با \lr{DHCP} دریافت کنید.
 
+\section{سناریو دوم}
+سناریو شکل \ref{fig:scenario-2} را در نظر بگیرید.
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.5\columnwidth]{figs/s-2.jpg}
+	\caption{شمای سناریو دوم}
+	\label{fig:scenario-2}
+\end{figure}
+
+در این سناریو سه زیر شبکه \code{172.6.1.0} (سمت چپ) و \code{172.16.2.0} (سمت راست) و \code{10.0.0.0} (وسط) را تعریف می‌کنیم.
+ابتدا باید تنظیمات مسیریابی واسط‌های روترها را برای اتصال زیرشبکه‌ها انجام دهید و مشابه سناریو قبل سرور \lr{DHCP} را به صورت دستی آدرس‌دهی کنید.
+
+از آن‌جایی که در این سناریو دو زیرشبکه داریم باید دو مخزن آدرس در سرور \lr{DHCP} تعریف کنید.
+تا این‌جای کار می‌توانید \lr{PC}های زیرشبکه \code{172.16.2.0} را آدرس‌دهی کنید اما آدرس‌دهی زیرشبکه \code{172.6.1.0} انجام نخواهد شد.
+برای حل این مشکل باید با رفتن به تنظیمات روتر و حالت \code{config} وارد بخش واسط روتر شوید.
+سپس با دستور \code{ip helper-address} و دادن آدرس سرور \lr{DHCP} تنظیمات را انجام دهید.
+
 \subsection{سوال‌ها}
-پس
+\begin{enumerate}
+	\item 
+	روش‌های مختلف اختصاص \lr{IP} در پروتکل \lr{DHCP} را شرح دهید.
+	\item 
+	\lr{DHCP} از چه پروتکلی برای برقراری ارتباط استفاده می‌کند؟
+	\item 
+	پروتکل \lr{DHCP} در حالت عادی هیچ سازوکاری برای احراز هویت ندارد و در نتیجه در معرض حمله‌های مختلفی است. حمله‌های محتمل در این پروتکل را شرح دهید.
+	
+	
+\end{enumerate}
 
 \end{document}
