@@ -94,7 +94,7 @@
 \lr{IP Configuration}
 آدرس‌ها را دریافت کنید. همچنین می‌توانید در \lr{Light Weight Access Point} آدرس و مقدار \lr{primary controller} را با \lr{DHCP} دریافت کنید.
 
-\section{سناریو دوم}
+\subsection{سناریو دوم}
 سناریو شکل \ref{fig:scenario-2} را در نظر بگیرید.
 \begin{figure}[h!]
 	\centering
@@ -110,6 +110,24 @@
 تا این‌جای کار می‌توانید \lr{PC}های زیرشبکه \code{172.16.2.0} را آدرس‌دهی کنید اما آدرس‌دهی زیرشبکه \code{172.6.1.0} انجام نخواهد شد.
 برای حل این مشکل باید با رفتن به تنظیمات روتر و حالت \code{config} وارد بخش واسط روتر شوید.
 سپس با دستور \code{ip helper-address} و دادن آدرس سرور \lr{DHCP} تنظیمات را انجام دهید.
+
+\subsection{سناریو سوم}
+در این سناریو قصد داریم مطابق شکل \ref{fig:scenario-3} یک روتر را به یک سرور \lr{DHCP} تبدیل کنیم.
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.5\columnwidth]{figs/s-3.jpg}
+	\caption{شمای سناریو سوم}
+	\label{fig:scenario-3}
+\end{figure}
+
+در ابتدا باید در روتر سرور، مخزن آدرس را به‌صورت دستی تنظیم کنید. برای این‌کار باید بعد از رفتن به حالت کانفیگ دستور \code{ip dhcp pool [pool-name]} را وارد کنید.
+
+حالا باید دامنه آدرس‌های دلخواه را با دستور \code{network [network-number] [network-mask]} تعیین کنید (به‌عنوان مثال در این سناریو می‌توان \code{network 10.0.0.0 255.255.255.0} را وارد کرد).
+در نهایت \lr{default gateway} را با دستور \code{default-router [router's ip address]} تنظیم کنید.
+
+در روتر کلاینت، ابتدا وارد واسط مورد نظر شوید. حالا می‌توان با دستور \code{ip address dhcp} آدرس کلاینت را تنظیم کرد.
+می‌توانید با دستورات \code{ip interface brief} و \code{show ip route} از صحت آدرس‌دهی مطمئن شوید.
+
 
 \subsection{سوال‌ها}
 \begin{enumerate}
